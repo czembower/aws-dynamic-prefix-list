@@ -96,4 +96,14 @@ resource "aws_iam_role_policy" "this" {
 }
 EOF
 }
+
+resource "aws_cloudwatch_event_rule" "this" {
+  name                = "this-event-rule"
+  schedule_expression = "cron(0/5 * * * ? *)"
+}
+
+resource "aws_cloudwatch_event_target" "this" {
+  rule = aws_cloudwatch_event_rule.this.name
+  arn  = aws_lambda_function.this.arn
+}
 ```
